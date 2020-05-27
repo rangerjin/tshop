@@ -371,7 +371,8 @@
 					</script>
 					BY KOREA POLYTECHNICS. ALL RIGHTS RESERVED. MADE BY HYJ
 				</p>
-				<p> git bash 저장 테스트</p>
+				<p> git bash 저장 테스트 2</p>
+				<p> git bash 저장 테스트 3</p>
 				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 			</div>
