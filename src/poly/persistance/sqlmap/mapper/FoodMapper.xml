@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.IFoodMapper">
+
+	<insert id="insertUserReg" parameterType="FoodUserDTO">
+		INSERT INTO FODU_USER
+			(
+				USER_ID,
+				USER_PWD,
+				USER_EMAIL,
+				USER_CODE,
+				USER_NAME,
+				USER_LOC
+			)
+		VALUES(
+			#{user_id},
+			#{user_pwd},
+			#{user_email},
+			#{user_code},
+			#{user_name},
+			#{user_loc}
+		)
+			
+	</insert>
+	
+	<select id="getUserIdCheck" parameterType="String" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*) FROM FODU_USER WHERE USER_ID = #{user_id}
+		]]>
+	</select>
+	
+	<select id="getUserEmailCheck" parameterType="String" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*) FROM FODU_USER WHERE USER_EMAIL = #{user_email}
+		]]>
+	</select>
+	
+	<update id="updateAuthKey" parameterType="hashmap">
+		<![CDATA[
+		UPDATE FODU_USER SET USER_KEY = #{user_key}
+			WHERE USER_ID = #{user_id}
+		]]>
+	</update>
+	
+	<select id="getSearchId" parameterType="String" resultType="String">
+		SELECT IFNULL(USER_ID, "") FROM FODU_USER WHERE USER_EMAIL = #{user_email}
+	</select>
+	
+	<select id="getNormalLogin" parameterType="FoodUserDTO">
+		SELECT COUNT(*) FROM FODU_USER WHERE USER_CODE = #{user_code} AND USER_KEY = {user_key}
+	</select>
+	
+	<select id="getUserInfo" parameterType="hashmap" resultType="FoodUserDTO">
+		SELECT * FROM FODU_USER WHERE USER_ID = #{user_id} AND USER_PWD = #{user_pwd}
+	</select>
+	
+	<select id="getUserIdFromEmail" parameterType="String" resultType="String">
+		SELECT USER_ID FROM FODU_USER WHERE USER_EMAIL = #{user_email}
+	</select>
+	
+	<select id="getUserPwFromEmail" parameterType="hashmap" resultType="String">
+		SELECT USER_PWD FROM FODU_USER WHERE USER_ID = #{user_id} AND USER_EMAIL = #{user_email}
+	</select>
+	
+	<delete id="deleteStop" parameterType="String">
+		DELETE FROM FODU_USER WHERE USER_ID = #{user_id}
+	</delete>
+
+</mapper>

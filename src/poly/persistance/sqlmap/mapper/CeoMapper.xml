@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.ICeoMapper">
+	<!-- 매장 등록 -->
+	<insert id="insertStrReg" parameterType="FoodStrDTO">
+		INSERT INTO FODC_STR
+		(
+		STR_NO,
+		STR_NAME,
+		STR_LOC,
+		STR_TEL,
+		STR_TIME,
+		USER_ID,
+		STR_IMG
+		)
+		VALUES(
+		seq_str.nextval,
+		#{str_name},
+		#{str_loc},
+		#{str_tel},
+		#{str_time},
+		#{user_id},
+		#{str_img}
+		)
+	</insert>
+	<!-- 매장 정보 리스트 가져오기 작성자 기준 -->
+	<select id="getStrList" resultType="FoodStrDTO">
+		SELECT * FROM FODC_STR WHERE
+		STR_CEOID = #{str_ceoid}
+	</select>
+	<!-- 매장정보 읽기 -->
+	<select id="getStrInfo" parameterType="String"
+		resultType="FoodStrDTO">
+		SELECT * FROM FODC_STR WHERE STR_NO = #{str_no}
+	</select>
+	<!-- 매장 삭제 -->
+	<delete id="deleteStr" parameterType="String">
+		DELETE FROM FODC_STR WHERE
+		STR_NO = #{str_no}
+	</delete>
+	<!-- 매장 수정 -->
+	<update id="updateStr" parameterType="FoodStrDTO">
+		UPDATE FODC_STR SET
+		STR_NAME = #{str_name},
+		STR_LOC = #{str_loc},
+		STR_IMG = #{str_img}
+		WHERE
+		STR_NO = #{str_no}
+	</update>
+
+	<!-- 매장 수정 -->
+	<update id="updateStrReg" parameterType="FoodStrDTO">
+		UPDATE FODC_STR SET
+			STR_NAME = #{str_name},
+			STR_LOC = #{str_loc},
+			STR_IMG = #{str_img},
+			STR_TEL = #{str_tel},
+			STR_TIME = #{str_time}
+		WHERE
+			STR_NO = #{str_no}
+	</update>
+	<!-- 메뉴등록 -->
+	<insert id="insertStrMenu" parameterType="MenuDTO">
+		INSERT INTO STR_MENU
+		(
+			MENU_NO,
+			MENU_NAME,
+			MENU_EXP,
+			MENU_IMG,
+			USER_ID,
+			MENU_COST,
+			MENU_STR_NO
+		)
+		VALUES(
+		seq_menu.nextval,
+		#{menu_name},
+		#{menu_exp},
+		#{menu_img},
+		#{user_id},
+		#{menu_cost},
+		#{menu_str_no}
+		)
+	</insert>
+	<!-- 메뉴 수정 -->
+	<update id="updateStrMenu" parameterType="MenuDTO">
+		UPDATE STR_MENU
+		SET
+		MENU_NAME = #{menu_name},
+		MENU_EXP = #{menu_exp},
+		MENU_IMG =
+		#{menu_img},
+		MENU_COST = #{menu_cost}
+		WHERE MENU_NO = #{menu_no}
+	</update>
+	<!-- 메뉴 삭제 -->
+	<delete id="deleteStrMenu" parameterType="String">
+		DELETE STR_MENU WHERE
+		MENU_NO = #{menu_no}
+	</delete>
+
+	<!-- 메뉴 정보 가져오기 -->
+	<select id="getMenuInfo" parameterType="String" resultType="MenuDTO">
+		SELECT * FROM STR_MENU WHERE MENU_NO = #{menu_no}
+	</select>
+
+
+</mapper>

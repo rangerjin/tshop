@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.IMailMapper">
+	<update id="getKey" parameterType="Map">
+		UPDATE FODU_USER SET USER_KEY = #{param2} WHERE USER_ID = #{param1}
+	</update>
+	
+	<update id="updateUserKey" parameterType="Map">
+		UPDATE FODU_USER SET USER_KEY = 'Y' WHERE USER_ID = #{param1} AND USER_KEY = #{param2}
+	</update>
+</mapper>

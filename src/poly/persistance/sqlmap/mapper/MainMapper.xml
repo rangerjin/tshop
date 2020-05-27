@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.IMainMapper">
+	<!-- 회원 정보 수정 -->
+	<update id="updateUserModify" parameterType="FoodUserDTO">
+		UPDATE FODU_USER SET
+			USER_EMAIL = #{user_email},
+			USER_PWD = #{user_pwd},
+			USER_LOC = #{user_loc}
+		WHERE
+			USER_ID = #{user_id}
+	</update>
+	<!-- 주소검색에 따라 매장리스트가져오기 -->
+	<select id="getStrList" parameterType="String" resultType="FoodStrDTO">
+		SELECT * FROM  FODC_STR WHERE STR_LOC like '%'||#{searchOption}||'%'
+	</select>
+	<!-- 매장리스트 검색옵션없이 -->
+	<select id="getEmptyStrList" resultType="FoodStrDTO">
+		SELECT * FROM FODC_STR
+	</select>
+	<!-- 매장정보 출력 -->
+	<select id="getStrInfo" parameterType="String" resultType="FoodStrDTO">
+		SELECT * FROM FODC_STR WHERE STR_NO = #{str_no}
+	</select>
+	<!-- 댓글 리스트 출력  -->
+	<select id="getReviewList" parameterType="String" resultType="StrReviewDTO">
+		SELECT * FROM STR_REVIEW WHERE REVIEW_STR_NO = #{review_str_no} ORDER BY REVIEW_UPDATE DESC
+	</select>
+	<!-- 댓글 정보 review_no로 -->
+	<select id="getReviewInfo" parameterType="String" resultType="StrReviewDTO">
+		SELECT * FROM STR_REVIEW WHERE REVIEW_NO = #{review_no}
+	</select>
+	<!-- 댓글 등록 -->
+	<insert id="insertReview" parameterType="StrReviewDTO">
+		INSERT INTO STR_REVIEW
+		(
+			REVIEW_NO,
+			REVIEW_CONT,
+			REVIEW_STR_NO,
+			USER_ID
+		)
+		VALUES(
+			seq_review.nextval,
+			#{review_cont},
+			#{review_str_no},
+			#{user_id}
+		)
+	</insert>	
+	<!-- 댓글 수정 -->
+	<update id="updateReviewInfo" parameterType="StrReviewDTO">
+		UPDATE STR_REVIEW
+		SET	REVIEW_TITLE = #{review_title},
+			REVIEW_CONT = #{review_cont},
+			REVIEW_UPDATE = #{review_update},
+			REVIEW_STAR = #{review_star}
+		WHERE REVIEW_NO = #{review_no}	
+	</update>
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReview" parameterType="String">
+		DELETE FROM STR_REVIEW WHERE REVIEW_NO = #{review_no}
+	</delete>
+	
+	<!-- 댓글 생성 ajax -->
+	<insert id="addComment" parameterType="StrReviewDTO">
+		INSERT INTO STR_REVIEW
+		(
+			REVIEW_NO,
+			REVIEW_CONT,
+			REVIEW_STR_NO,
+			USER_ID
+		)
+		VALUES(
+			seq_review.nextval,
+			#{review_cont},
+			#{review_str_no},
+			#{user_id}
+		)
+	</insert>
+	<!-- 댓글 리스트 가져오기 ajax -->
+	<select id="selectBoardCommentByCode" resultType="StrReviewDTO">
+		SELECT * FROM FROM STR_REVIEW WHERE REVIEW_STR_NO = #{review_str_no}
+	</select>
+	
+	<!-- 메뉴 리스트 가져오기 -->
+	<select id="getMenuList" resultType="MenuDTO">
+		SELECT * FROM STR_MENU WHERE MENU_STR_NO = #{str_no} ORDER BY MENU_REGDATE DESC
+	</select>
+	
+	<!-- noAjax 리뷰 등록 -->
+	<insert id="insertReviewNoAjax" parameterType="StrReviewDTO">
+		INSERT INTO STR_REVIEW
+			(
+				REVIEW_NO,
+				REVIEW_CONT,
+				REVIEW_STR_NO,
+				USER_ID
+			)
+			VALUES(
+				seq_review.nextval,
+				#{review_cont},
+				#{review_str_no},
+				#{user_id}
+			)
+	</insert>
+	
+	<!-- noAjax 리뷰 삭제 -->
+	<delete id="deleteReviewNoAjax" parameterType="String">
+		DELETE FROM STR_REVIEW WHERE REVIEW_NO = #{review_no}
+	</delete>
+	
+	<!-- noAjax 리뷰 수정 -->
+	<update id="updateReviewNoAjax" parameterType="StrReviewDTO">
+		UPDATE STR_REVIEW 
+		SET REVIEW_CONT = #{review_cont}
+		WHERE REVIEW_NO = #{review_no}
+	</update>
+
+</mapper>
