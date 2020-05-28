@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인 / 회원가입 폼 템플릿</title>
+<title>로그인</title>
+<link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 <style>
 * {
 	margin: 0;
@@ -12,10 +13,11 @@
 	font-family: sans-serif;
 }
 
+/* background image */
 .wrap {
 	height: 100%;
 	width: 100%;
-	background-image: url(img/background.jpg);
+	background-image: url(/img/background.jpg);
 	background-position: center;
 	background-size: cover;
 	position: absolute;

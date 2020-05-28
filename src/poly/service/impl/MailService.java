@@ -33,7 +33,7 @@ public class MailService implements IMailService {
 
 	final String host = "smtp.naver.com"; // 네이버에서 제공하는 SMTP서버
 	final String user = "youngjinman3"; // 보인 네이버 아이디
-	final String password = "gkakehs1!Q"; // 본인 네이버 비밀번호
+	final String password = "dudwls12!"; // 본인 네이버 비밀번호
 
 	private String init() {
 		Random ran = new Random();
@@ -151,10 +151,10 @@ public class MailService implements IMailService {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(toMail));
 
 			// 메일 제목
-			message.setSubject("Food24 [인증메일] 입니다", "utf-8");
+			message.setSubject("tshop [인증메일] 입니다", "utf-8");
 
 			// 메일 내용
-			message.setText("<h2>안녕하세요 Food24 입니다</h2><br><br>"
+			message.setText("<h2>안녕하세요 tshop 입니다</h2><br><br>"
 						+	"<h3>" + user_id + "님</h3>" + "<p>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다 : "
 						+ "<a href='http://localhost:8080" + request.getContextPath() + "/user/key_alter.do?user_id="
 						+ user_id + "&user_key=" + user_key+"'>인증하기</a></p>"

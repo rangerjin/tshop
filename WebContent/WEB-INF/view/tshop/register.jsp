@@ -11,22 +11,24 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 <style>
 .headline {
 	text-align: center;
+	margin: -20px;
 }
 
 .loginDiv {
 	margin: auto;
-	width: 80%;
-	border: 3px solid black;
-	padding: 10px;
+	width: 100%;
+	border: 1px solid black;
+	padding: inherit;
 }
 
 .wrap {
 	min-width: 100%;
 	min-height: 100%;
-	background-image: url(img/background.jpg);
+	background-image: url(/img/background.jpg);
 	background-position: center;
 	background-size: cover;
 	position: absolute;
@@ -37,7 +39,7 @@
 	position: relative;
 	margin: 6% auto;
 	background: #fff;
-	padding: 5px;
+	padding: 10px;
 	overflow: hidden;
 	margin-top: 10px;
 }
@@ -47,7 +49,25 @@
 }
 
 #checkDiv {
-	margin-left: 30%;
+	padding: 1.5%;
+}
+
+.form-check-label {
+	font-size: 1.5em;
+}
+
+#sellerRadioDiv {
+	margin-left: 2.5%;
+}
+
+#normalRadioDiv {
+	margin-left: 2.5%;
+}
+
+input[type="radio"] {
+	-ms-transform: scale(1.3); /* IE 9 */
+	-webkit-transform: scale(1.3); /* Chrome, Safari, Opera */
+	transform: scale(1.3);
 }
 </style>
 <script>
@@ -56,6 +76,9 @@
 
 	// 비밀번호 정규식
 	var pwJ = /^[A-Za-z0-9]{4,12}$/;
+
+	// 핸드폰 번호 정규식
+	var telJ = /^[0-9]{10,11}/;
 </script>
 </head>
 <body>
@@ -67,15 +90,12 @@
 				<br>
 			</div>
 			<div class="loginDiv">
-				<form method="POST" action="/food/userReg.do" method="post">
+				<form method="POST" action="/tshop/userReg.do" method="post">
 					<!-- 아이디 -->
 					<div class="form-group">
 						<label for="user_id">아이디</label> <input type="text"
 							class="form-control" id="user_id" name="user_id" placeholder="ID"
 							required>
-						<!-- 아이디 중복 버튼 
-					<input type="button" id="id_check_button" class="btn btn-primary px-3" value="중복확인" onclick="duplicationId();" />
-					 -->
 						<div class="check_font" id="id_check"></div>
 					</div>
 					<!-- 비밀번호 -->
@@ -106,6 +126,15 @@
 							placeholder="E-mail" required>
 						<div class="check_font" id="email_check"></div>
 					</div>
+					<!-- 핸드폰 전화번호 -->
+					<div class="form-group">
+						<label for="user_tel">핸드폰</label> <input type="text"
+							class="form-control" name="user_tel" id="user_tel"
+							placeholder="-없이 적어주세요 ex)01012345678" required>
+						<div class="check_font" id="tel_check"></div>
+					</div>
+
+
 					<br>
 					<div class="form-group">
 						<div class="row">
@@ -128,17 +157,19 @@
 					<div id="checkDiv">
 						<div class="row">
 							<!-- 일반 사용자 체크-->
-							<div class="form-check form-check-inline">
-								<input type="radio" class="form-check-input"
-									id="user_code_normal" name="user_code" value="n"> <label
-									class="form-check-label" for="user_code_normal">일반 사용자</label>
+							<div class="form-check form-check-inline" id="normalRadioDiv">
+								<input type="radio" class="form-check-input" name="user_code"
+									value="n" id="user_code_normal"> <label
+									class="form-check-label" for="user_code_normal"
+									id="user_code_normal_label">일반 사용자</label>
 							</div>
 
 							<!-- 판매자 체크 -->
-							<div class="form-check form-check-inline">
-								<input type="radio" class="form-check-input" id="user_code_ceo"
-									name="user_code" value="c"> <label
-									class="form-check-label" for="user_code_ceo">판매자</label>
+							<div class="form-check form-check-inline" id="sellerRadioDiv">
+								<input type="radio" class="form-check-input"
+									id="user_code_seller" name="user_code" value="c"> <label
+									class="form-check-label" for="user_code_seller"
+									id="user_code_seller_label">판매자</label>
 							</div>
 						</div>
 					</div>
@@ -146,31 +177,23 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<button type="button" class="btn btn-outline-primary"
+								<button type="submit" class="btn btn-outline-primary"
 									id="reg_submit">가입</button>
 							</div>
 							<div class="col-sm-6">
+								
 								<button type="button" class="btn btn-outline-danger"
 									id="reg_cancel"
-									onClick="location.href='${pageContext.request.contextPath}/food/login.do'">취소</button>
+									onClick="location.href='${pageContext.request.contextPath}/tshop/login.do'">취소</button>
 							</div>
 						</div>
-					</div>
-					<div class="reg_button">
-
-
-						<%-- 
-						<a class="btn btn-danger px-3"
-							href="${pageContext.request.contextPath}/food/login.do"> <i
-							class="fa fa-rotate-right pr-3" aria-hidden="true"></i>취소
-						</a>
-						--%>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </body>
+
 <script type="text/javascript">
 	//아이디 유효성 검사(1 = 중복 / 0 != 중복)
 	$("#user_id").blur(function duplicationId() {
@@ -291,6 +314,39 @@
 			error : function() {
 				console.log("실패");
 			}
+		});
+
+	});
+
+	/* 핸드폰 양식 체크  */
+	$("#user_tel").blur(function telCheck() {
+
+		if (telJ.test($('#user_tel').val()) != true) {
+			$("#tel_check").text("핸드폰 번호 양식에 맞지않습니다 !! 기호 없이 숫자만 써주세요!!.");
+			$("#tel_check").css("color", "red");
+			$("#reg_submit").attr("disabled", true);
+
+			$("#user_tel").focus();
+		} else {
+			$("#tel_check").text("");
+			$("#reg_submit").attr("disabled", false);
+		}
+
+	});
+</script>
+ 
+<!-- 라디오 버튼 색깔 바꾸기 -->
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$("#user_code_normal").click(function() {
+			$("#user_code_normal_label").css("color", "blue");
+			$("#user_code_seller_label").css("color", "black");
+		});
+
+		$("#user_code_seller").click(function() {
+			$("#user_code_normal_label").css("color", "black");
+			$("#user_code_seller_label").css("color", "blue");
 		});
 
 	});

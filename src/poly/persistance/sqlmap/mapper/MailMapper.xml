@@ -7,6 +7,6 @@
 	</update>
 	
 	<update id="updateUserKey" parameterType="Map">
-		UPDATE FODU_USER SET USER_KEY = 'Y' WHERE USER_ID = #{param1} AND USER_KEY = #{param2}
+		UPDATE USER SET USER_KEY = 'Y' WHERE USER_ID = #{param1} AND USER_KEY = #{param2}
 	</update>
 </mapper>

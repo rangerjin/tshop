@@ -9,5 +9,7 @@
 		<typeAlias type="poly.dto.FoodStrDTO" alias="FoodStrDTO"/>
 		<typeAlias type="poly.dto.MenuDTO" alias="MenuDTO"/>
 		<typeAlias type="poly.dto.StrReviewDTO" alias="StrReviewDTO"/>
+		<!-- 유저 테이블 -->
+		<typeAlias type="poly.dto.UserDTO" alias="UserDTO"/>
     </typeAliases>
 </configuration>
