@@ -94,7 +94,7 @@ public class MailController {
 		
 		model.addAttribute("res", res);
 		
-		return "redirect:/tshop/login";
+		return "redirect:/tshop/login.do";
 	}
 	
 	

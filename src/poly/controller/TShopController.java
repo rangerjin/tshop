@@ -72,19 +72,6 @@ public class TShopController {
 		int result = 0; // 회원가입 성공시 1 실패시 0
 		String msg = ""; // 회원가입 시 메시지 전송
 		
-		log.info(this.getClass().getName() + "회원가입 매서드 시작전!!");
-		
-		log.info(this.getClass().getName() + "request parameter 확인!!");
-		
-		System.out.println("user_id 확인 : " + request.getParameter("user_id"));
-		System.out.println("user_pwd 확인 : " + request.getParameter("user_pwd"));
-		System.out.println("user_name 확인 : " + request.getParameter("user_name"));
-		System.out.println("user_email 확인 : " + request.getParameter("user_email"));
-		System.out.println("user_tel 확인 : " + request.getParameter("user_tel"));
-		System.out.println("user_loc 확인 : " + request.getParameter("user_loc"));
-		System.out.println("user_loc2 확인 : " + request.getParameter("user_loc2"));
-		System.out.println("user_code 확인 : " + request.getParameter("user_code"));
-		
 		try {
 			result = tshopService.insertTSHOPUserReg(pDTO);
 		} catch (Exception e) {
@@ -99,11 +86,24 @@ public class TShopController {
 			msg = "회원가입 실패!!";
 		}
 		
-		model.addAttribute(msg);
+		// model.addAttribute(msg); 
+		// msg메시지 담아서 보내기
+		request.setAttribute("msg", msg);
 		
+		log.info(this.getClass().getName() + ".tshopUserReg End!!");
+		
+		
+		log.info(this.getClass().getName() + " 이메일 코드 발송 전!!");
 		
 		// 이메일 인증 코드 발송
-		// mailService.mailSendWithUserKey(pDTO.getUser_email(), pDTO.getUser_id(), request);
+		try {
+			mailService.mailSendWithUserKey(pDTO.getUser_email(), pDTO.getUser_id(), request);
+		} catch (Exception e) {
+			e.toString();
+		}
+		
+		log.info(this.getClass().getName() + " 이메일 코드 발송 후!!");
+		
 		
 
 		return "redirect:/tshop/login.do";

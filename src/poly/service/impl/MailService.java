@@ -128,7 +128,7 @@ public class MailService implements IMailService {
 		String user_key = getKey(false, 20);
 
 		mailMappper.getKey(user_id, user_key);
-
+		
 		// 로그 찍기(추후 찍은 로그를 통해 이 함수에 접근했는지 파악하기가 용이하다
 		log.info(this.getClass().getName() + ".mailSendWithUserKey start!");
 
