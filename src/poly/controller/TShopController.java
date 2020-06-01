@@ -95,7 +95,7 @@ public class TShopController {
 		
 		log.info(this.getClass().getName() + " 이메일 코드 발송 전!!");
 		
-		// 이메일 인증 코드 발송
+		// 이메일 인증시 발송된 user_key와 db의 user_key가 일치하면 
 		try {
 			mailService.mailSendWithUserKey(pDTO.getUser_email(), pDTO.getUser_id(), request);
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class TShopController {
 		
 		
 
-		return "redirect:/tshop/login.do";
+		return "tshop/loginPage";
 	}
 	
 	/**

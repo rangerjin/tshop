@@ -30,10 +30,15 @@ public class MailService implements IMailService {
 
 	@Resource(name = "MailMapper")
 	private IMailMapper mailMappper;
-
-	final String host = "smtp.naver.com"; // 네이버에서 제공하는 SMTP서버
-	final String user = "youngjinman3"; // 보인 네이버 아이디
-	final String password = "dudwls12!"; // 본인 네이버 비밀번호
+	/*
+	 * final String host = "smtp.naver.com"; // 네이버에서 제공하는 SMTP서버 final String user
+	 * = "youngjinman3"; // 보인 네이버 아이디 final String password = "dudwls12!"; // 본인
+	 * 네이버 비밀번호\
+	 */	
+	final String host = "smtp.daum.net"; // 네이버에서 제공하는 SMTP서버
+	final String user = "youngjinman2"; // 보인 네이버 아이디
+	final String password = "gkakehs1!"; // 본인 네이버 비밀번호\
+	final int port = 465; // 네이버 smtp 포트번호
 
 	private String init() {
 		Random ran = new Random();
@@ -79,6 +84,8 @@ public class MailService implements IMailService {
 		if (pDTO == null) {
 			pDTO = new MailDTO();
 		}
+		
+		log.info(this.getClass().getName() + "toMail 확인 : " + pDTO.getToMail());
 
 		String toMail = CmmUtil.nvl(pDTO.getToMail()); // 받는사람 CmmUtil.nvl(인자) null널값을 받으면 빈칸을 채우는 메서드
 
@@ -125,8 +132,10 @@ public class MailService implements IMailService {
 	@Override
 	public void mailSendWithUserKey(String user_email, String user_id, HttpServletRequest request) {
 
+		// 유저 key 생성
 		String user_key = getKey(false, 20);
 
+		// 유저 테이블에 user_key update
 		mailMappper.getKey(user_id, user_key);
 		
 		// 로그 찍기(추후 찍은 로그를 통해 이 함수에 접근했는지 파악하기가 용이하다
@@ -137,6 +146,12 @@ public class MailService implements IMailService {
 		Properties props = new Properties(); // 네이버 인증을 위해 자바에서 제공해주는 properties
 		props.put("mail.smtp.host", host); // javax 외부 라이브러리에 메일 보내는 사람의 정보 설정
 		props.put("mail.smtp.auth", "true"); // javax 외부 라이브러리에 메일 보내는 사람 인증 여부 설정
+		props.put("mail.smtp.port", port);
+		props.put("mail.smtp.ssl.enable", "true");
+		props.put("mail.smtp.ssl.trust", host);
+		props.put("mail.smtp.starttls.enable", "false");
+		
+		
 
 		// 네이버 SMTP서버 인증 처리 로직
 		Session session = Session.getDefaultInstance(props, new Authenticator() {
@@ -179,6 +194,7 @@ public class MailService implements IMailService {
 		
 		int res = 0;
 		
+		// db의 유저키와 보내는 user_key가 일치시 user_key 를 y로 주어서 인증처리 user_key가 y이면 로그인 가능 처리
 		res = mailMappper.updateUserKey(user_id, user_key);
 		
 		return res;
