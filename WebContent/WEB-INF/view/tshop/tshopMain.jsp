@@ -1,12 +1,12 @@
+<%@page import="poly.dto.UserDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!-- jstl -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>tmall</title>
+<title>tshop</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- <title>fmall</title> -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,6 +74,9 @@
 	color: #f51167;
 }
 </style>
+<script>
+alert('<c:out value="${msg}"/>');
+</script>
 </head>
 <body>
 	<!-- Page Preloder -->
@@ -95,9 +98,22 @@
 					<div class="col-xl-4 col-lg-5">
 						<div class="user-panel">
 							<div class="up-item">
-								<i class="flaticon-profile"></i> <a
-									href="<c:url value="/tshop/login.do" />">로그인</a> / <a
-									href="<c:url value="/tshop/register.do" />">회원가입</a>
+								<c:if test="${user }!=null">
+
+								</c:if>
+								<c:choose>
+									<c:when test="${not empty user}">
+										<i class="flaticon-profile"></i>
+										<a href="<c:url value="/tshop/myPage.do" />"> ${user.user_name}
+										</a> / <a href="<c:url value="/tshop/ㅣlogout.do" />">로그아웃</a>
+									</c:when>
+									<c:otherwise>
+										<i class="flaticon-profile"></i>
+										<a href="<c:url value="/tshop/login.do" />">로그인</a> / <a
+											href="<c:url value="/tshop/register.do" />">회원가입</a>
+									</c:otherwise>
+
+								</c:choose>
 							</div>
 							<div class="up-item">
 								<div class="shopping-card">
@@ -272,8 +288,8 @@
 			<p class="text-white text-center mt-5">
 				Copyright &copy;
 				<script>
-						document.write(new Date().getFullYear());
-					</script>
+					document.write(new Date().getFullYear());
+				</script>
 				BY KOREA POLYTECHNICS. ALL RIGHTS RESERVED. MADE BY HYJ
 			</p>
 			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

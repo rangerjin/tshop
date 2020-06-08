@@ -12,4 +12,7 @@ public interface ITShopService {
 
 	// 회원가입시 이메일 중복 체크
 	public int getTSHOPUserEmailCheck(String user_email) throws Exception;
+
+	// 로그인창에서 아이디 비밀번호로 DTO 불러오기 
+	public UserDTO getTSHOPUserInfo(String user_id, String user_pwd) throws Exception;
 }

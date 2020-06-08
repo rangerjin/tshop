@@ -30,14 +30,14 @@ public class MailService implements IMailService {
 
 	@Resource(name = "MailMapper")
 	private IMailMapper mailMappper;
-	/*
-	 * final String host = "smtp.naver.com"; // 네이버에서 제공하는 SMTP서버 final String user
-	 * = "youngjinman3"; // 보인 네이버 아이디 final String password = "dudwls12!"; // 본인
-	 * 네이버 비밀번호\
-	 */	
+
+//	final String host = "smtp.naver.com"; // 네이버에서 제공하는 SMTP서버
+//	final String user = "youngjinman3"; // 보인 네이버 아이디
+//	final String password = "dudwls12!"; // 본인네이버 비밀번호
+
 	final String host = "smtp.daum.net"; // 네이버에서 제공하는 SMTP서버
-	final String user = "youngjinman2"; // 보인 네이버 아이디
-	final String password = "gkakehs1!"; // 본인 네이버 비밀번호\
+	final String user = "youngjinman2@daum.net"; // 보인 네이버 아이디
+	final String password = "gkakehs1!"; // 본인 네이버 비밀번호
 	final int port = 465; // 네이버 smtp 포트번호
 
 	private String init() {
@@ -84,7 +84,7 @@ public class MailService implements IMailService {
 		if (pDTO == null) {
 			pDTO = new MailDTO();
 		}
-		
+
 		log.info(this.getClass().getName() + "toMail 확인 : " + pDTO.getToMail());
 
 		String toMail = CmmUtil.nvl(pDTO.getToMail()); // 받는사람 CmmUtil.nvl(인자) null널값을 받으면 빈칸을 채우는 메서드
@@ -132,26 +132,27 @@ public class MailService implements IMailService {
 	@Override
 	public void mailSendWithUserKey(String user_email, String user_id, HttpServletRequest request) {
 
+		log.info(this.getClass().getName() + ".mailSendWithUserKey start!");
+
 		// 유저 key 생성
 		String user_key = getKey(false, 20);
 
+		log.info(this.getClass().getName() + "getKey start!!");
+
 		// 유저 테이블에 user_key update
 		mailMappper.getKey(user_id, user_key);
-		
-		// 로그 찍기(추후 찍은 로그를 통해 이 함수에 접근했는지 파악하기가 용이하다
-		log.info(this.getClass().getName() + ".mailSendWithUserKey start!");
 
-		String toMail = user_email; // 받는사람 CmmUtil.nvl(인자) null널값을 받으면 빈칸을 채우는 메서드
+		log.info(this.getClass().getName() + "getKey end!!");
+
+		String toMail = CmmUtil.nvl(user_email); // 받는사람 CmmUtil.nvl(인자) null널값을 받으면 빈칸을 채우는 메서드
 
 		Properties props = new Properties(); // 네이버 인증을 위해 자바에서 제공해주는 properties
+
 		props.put("mail.smtp.host", host); // javax 외부 라이브러리에 메일 보내는 사람의 정보 설정
+		props.put("mail.smtp.port", 465);
 		props.put("mail.smtp.auth", "true"); // javax 외부 라이브러리에 메일 보내는 사람 인증 여부 설정
-		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.ssl.enable", "true");
 		props.put("mail.smtp.ssl.trust", host);
-		props.put("mail.smtp.starttls.enable", "false");
-		
-		
 
 		// 네이버 SMTP서버 인증 처리 로직
 		Session session = Session.getDefaultInstance(props, new Authenticator() {
@@ -169,11 +170,10 @@ public class MailService implements IMailService {
 			message.setSubject("tshop [인증메일] 입니다", "utf-8");
 
 			// 메일 내용
-			message.setText("<h2>안녕하세요 tshop 입니다</h2><br><br>"
-						+	"<h3>" + user_id + "님</h3>" + "<p>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다 : "
-						+ "<a href='http://localhost:8080" + request.getContextPath() + "/user/key_alter.do?user_id="
-						+ user_id + "&user_key=" + user_key+"'>인증하기</a></p>"
-						, "utf-8", "html");
+			message.setText("<h2>안녕하세요 TShop 입니다</h2><br><br>" + "<h3>" + user_id + "님</h3>"
+					+ "<p>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다 : " + "<a href='http://localhost:8080" + request.getContextPath()
+					+ "/user/key_alter.do?user_id=" + user_id + "&user_key=" + user_key + "'>인증하기</a></p>", "utf-8",
+					"html");
 
 			// 메일 발송
 			Transport.send(message);
@@ -187,22 +187,23 @@ public class MailService implements IMailService {
 
 		// 로그 찍기(추후 찍은 로그를 통해 이 함수 호출이 끝났는지 파악하기 용이하다.)
 		log.info(this.getClass().getName() + ".doSendMail end!!!");
+
 	}
 
 	@Override
 	public int alter_userKey_service(String user_id, String user_key) {
-		
+
 		int res = 0;
-		
+
 		// db의 유저키와 보내는 user_key가 일치시 user_key 를 y로 주어서 인증처리 user_key가 y이면 로그인 가능 처리
 		res = mailMappper.updateUserKey(user_id, user_key);
-		
+
 		return res;
 	}
 
 	@Override
 	public void mailSendWithPassword(String user_id, String user_email, HttpServletRequest request) {
-		
+
 	}
 
 }

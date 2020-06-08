@@ -45,6 +45,11 @@
 		]]>
 	</select>
 	
+	<!-- 로그인 기능 실행 -->
+	<select id="getTSHOPUserInfo" parameterType="hashmap" resultType="UserDTO">
+		SELECT * FROM USER WHERE USER_ID = #{user_id} AND USER_PWD = #{user_pwd}
+	</select>
+	
 	<!-- 
 	<update id="updateAuthKey" parameterType="hashmap">
 		<![CDATA[

@@ -1,5 +1,8 @@
 package poly.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -67,6 +70,26 @@ public class TShopService implements ITShopService {
 		}
 
 		return result;
+	}
+
+	// 로그인창에서 user_id, user_pwd로 user 정보 불러오기
+	@Override
+	public UserDTO getTSHOPUserInfo(String user_id, String user_pwd) throws Exception {
+		
+		UserDTO user = null;
+		
+		Map<String, String> pMap = new HashMap<String, String>();
+		
+		pMap.put("user_id", user_id);
+		pMap.put("user_pwd", user_pwd);
+		
+		try {
+			user = tShopMapper.getTSHOPUserInfo(pMap);
+		} catch (Exception e) {
+			e.toString();
+		}
+		
+		return user;
 	}
 
 }

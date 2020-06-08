@@ -9,7 +9,7 @@ public interface IMailService {
 	// 메일 발송
 	int doSendMail(MailDTO pDTO);
 	
-	// 회원가입 발송 이메일(인증키 발송)
+	// 회원가입 발송 이메일(인증키 발송) 
 	void mailSendWithUserKey(String user_email, String user_id, HttpServletRequest request);
 
 	// 회원가입 이메일 인증시 권한 y

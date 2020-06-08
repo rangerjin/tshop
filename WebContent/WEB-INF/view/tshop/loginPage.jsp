@@ -131,7 +131,7 @@ span {
 			<div class="button-wrap">
 				<div id="btn"></div>
 				<button type="button" class="togglebtn" onclick="login()">로그인</button>
-				<button type="button" class="togglebtn" onclick="register()">회원가입</button>
+				<!-- <button type="button" class="togglebtn" onclick="register()">회원가입</button> -->
 			</div>
 			<!-- <div class="social-icons">
 				<img src="img/fb.png" alt="facebook"> <img src="img/tw.png"
@@ -145,18 +145,12 @@ span {
 					Password</span>
 				<button class="submit">Login</button>
 			</form>
-			<form id="register" action="" class="input-group">
-				<input type="text" class="input-field"
-					placeholder="User name or Email" required> <input
-					type="email" class="input-field" placeholder="Your Email" required>
-				<input type="password" class="input-field"
-					placeholder="Enter Password" required> <input
-					type="checkbox" class="checkbox"><span>Terms and
-					conditions</span>
-				<button class="submit">REGISTER</button>
-			</form>
+
+
+			<br> <a href="">아이디 찾기</a> / <a href="">비밀번호 찾기</a>
 		</div>
 	</div>
+
 	<script>
             var x = document.getElementById("login");
             var y = document.getElementById("register");
