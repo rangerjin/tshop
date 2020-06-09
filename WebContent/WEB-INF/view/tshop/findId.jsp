@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -193,25 +192,25 @@ h2 {
 	<div class="wrap">
 		<div class="inner_login">
 			<div class="login_tistory">
-				<h2>로그인</h2>
+				<h2>아이디 찾기</h2>
 
-				<form method="post" id="authForm" action="/tshop/loginPost.do">
+				<form method="post" id="authForm" action="/tshop/findIdPost.do">
 					<input type="hidden" name="redirectUrl"
 						value="https://blogpack.tistory.com/manage">
 					<fieldset>
 						<legend class="screen_out">로그인 정보 입력폼</legend>
 						<div class="box_login">
 							<div class="inp_text">
-								<label for="loginId" class="screen_out">아이디</label> <input
-									type="text" id="user_id" name="user_id" placeholder="아이디">
+								<label for="loginId" class="screen_out">이메일</label> <input
+									type="email" id="user_email" name="user_email" placeholder="이메일">
 							</div>
-							<div class="inp_text">
+							<!-- <div class="inp_text">
 								<label for="loginPw" class="screen_out">비밀번호</label> <input
 									type="password" id="user_pwd" name="user_pwd"
 									placeholder="비밀번호">
-							</div>
+							</div> -->
 						</div>
-						<button type="submit" class="btn_login">로그인</button>
+						<button type="submit" class="btn_login">아이디 찾기</button>
 						<div class="login_append">
 							<div class="inp_chk">
 								<!-- 
@@ -223,12 +222,14 @@ h2 {
 							</label>
 							 -->
 							</div>
+							<!-- 
 							<div class="findDiv">
-								<span class="txt_find"> <a href="/tshop/findId.do"
-									class="link_find">아이디</a> / <a href=/tshop/findPassword.do
+								<span class="txt_find"> <a href="/member/find/loginId"
+									class="link_find">아이디</a> / <a href="/member/find/password"
 									class="link_find">비밀번호 찾기</a>
 								</span>
 							</div>
+							 -->
 						</div>
 
 					</fieldset>
@@ -249,18 +250,6 @@ h2 {
 			$(this).css("color", "blue");
 		});
 	});
-</script>
-<script>
-var user_id = request.getParameter('user_id');
-
-if(user_id != null || user_id != ""){
-	alert('<c:out value="${user_id}"/>');	
-}
-
-var user_pwd = request.getParameter('user_pwd');
-if(user_pwd != null || user_pwd != ""){
-	alert('<c:out value="${user_pwd}"/>');	
-}
 </script>
 </body>
 </html>

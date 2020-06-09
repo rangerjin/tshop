@@ -20,4 +20,10 @@ public interface ITShopMapper {
 	// 로그인 창에서 아이디 비밀번호로 user 테이블 정보 불러오기
 	UserDTO getTSHOPUserInfo(Map<String, String> pMap) throws Exception;
 
+	// 아이디 찾기
+	String getTSHOPUserId(String user_email) throws Exception;
+
+	// 비밀번호 찾기
+	String getTSHOPUserPassword(Map<String, String> pMap) throws Exception;
+
 }

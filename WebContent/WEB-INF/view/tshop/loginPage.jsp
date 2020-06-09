@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String msg = (String) request.getAttribute("msg");
 %>
@@ -147,7 +147,7 @@ span {
 			</form>
 
 
-			<br> <a href="">아이디 찾기</a> / <a href="">비밀번호 찾기</a>
+			<br> <a href="/tshop/findId.do">아이디 찾기</a> / <a href="${pageContext.request.contextPath }/tshop/findPassword.do">비밀번호 찾기</a>
 		</div>
 	</div>
 

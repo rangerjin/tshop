@@ -75,7 +75,14 @@
 }
 </style>
 <script>
-alert('<c:out value="${msg}"/>');
+var msg = request.getParameter('msg');
+
+if(msg != null || msg != ""){
+	alert('<c:out value="${msg}"/>');	
+}
+
+/* alert('<c:out value="${msg}"/>'); */
+
 </script>
 </head>
 <body>

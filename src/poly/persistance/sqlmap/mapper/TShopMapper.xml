@@ -50,6 +50,14 @@
 		SELECT * FROM USER WHERE USER_ID = #{user_id} AND USER_PWD = #{user_pwd}
 	</select>
 	
+	<select id="getTSHOPUserId" parameterType="String" resultType="String">
+		SELECT USER_ID FROM USER WHERE USER_EMAIL = #{user_email}
+	</select>
+	
+	<select id="getTSHOPUserPassword" parameterType="hashmap" resultType="String">
+		SELECT USER_PWD FROM USER WHERE USER_ID = #{user_id} AND USER_EMAIL = #{user_email}
+	</select>
+	
 	<!-- 
 	<update id="updateAuthKey" parameterType="hashmap">
 		<![CDATA[
