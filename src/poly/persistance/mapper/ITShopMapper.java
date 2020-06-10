@@ -1,8 +1,10 @@
 package poly.persistance.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import config.Mapper;
+import poly.dto.ProductDTO;
 import poly.dto.UserDTO;
 
 @Mapper("TShopMapper")
@@ -25,5 +27,11 @@ public interface ITShopMapper {
 
 	// 비밀번호 찾기
 	String getTSHOPUserPassword(Map<String, String> pMap) throws Exception;
+
+	// 판매자 나의 상품 리스트 확인
+	List<ProductDTO> getMyProductList(String user_id) throws Exception;
+
+	// 상품 등록 성공시 1 실패시 0
+	int insertRegProduct(ProductDTO pDTO) throws Exception;
 
 }

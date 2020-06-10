@@ -1,12 +1,13 @@
-<%@page import="poly.dto.UserDTO"%>
+<%@page import="poly.dto.FoodStrDTO"%>
+<%@page import="poly.dto.FoodUserDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>tshop</title>
+<!-- Theme Made By www.w3schools.com - No Copyright -->
+<title>tshop 상품등록</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- <title>fmall</title> -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +36,6 @@
 <link rel="stylesheet" href="/css/owl.carousel.min.css" />
 <link rel="stylesheet" href="/css/animate.css" />
 <link rel="stylesheet" href="/css/style.css" />
-
 
 <!--[if lt IE 9]>
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -73,17 +73,29 @@
 .user-panel .up-item:hover>a {
 	color: #f51167;
 }
-</style>
-<script>
-var msg = request.getParameter('msg');
 
-if(msg != null || msg != ""){
-	alert('<c:out value="${msg}"/>');	
+.row {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin-right: -15px;
+	margin-left: 0px;
+	margin-top: 10px;
 }
 
-/* alert('<c:out value="${msg}"/>'); */
+.reg_button {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-left: 15px;
+}
 
-</script>
+#main {
+	padding-top:50px;
+	padding-bottom:50px;
+}
+</style>
 </head>
 <body>
 	<!-- Page Preloder -->
@@ -111,8 +123,9 @@ if(msg != null || msg != ""){
 								<c:choose>
 									<c:when test="${not empty user}">
 										<i class="flaticon-profile"></i>
-										<a href="<c:url value="/tshop/myPage.do" />"> ${user.user_name}
-										</a> / <a href="<c:url value="/tshop/ㅣlogout.do" />">로그아웃</a>
+										<a href="<c:url value="/tshop/myPage.do" />">
+											${user.user_name} </a> / <a
+											href="<c:url value="/tshop/ㅣlogout.do" />">로그아웃</a>
 									</c:when>
 									<c:otherwise>
 										<i class="flaticon-profile"></i>
@@ -156,12 +169,12 @@ if(msg != null || msg != ""){
 							<li><a href="#">3-3</a></li>
 						</ul></li>
 					<c:if test="${user.user_code == 'c'}">
-					<li><a href="#">상품 관리</a>
-						<ul class="sub-menu">
-							<li><a href="<c:url value="/tshop/regProductForm.do" />">상품등록</a></li>
-							<li><a href="#">상품보기</a></li>
-						</ul></li>
-					</c:if>	
+						<li><a href="#">상품 관리</a>
+							<ul class="sub-menu">
+								<li><a href="<c:url value="/tshop/regProductForm.do" />">상품등록</a></li>
+								<li><a href="#">상품보기</a></li>
+							</ul></li>
+					</c:if>
 				</ul>
 			</div>
 		</nav>
@@ -169,129 +182,83 @@ if(msg != null || msg != ""){
 	<!-- Header section end -->
 
 
-	<section class="hero-section">
-		<div class="container" id="imgDiv">
-			<div id="myCarousel" class="carousel slide" data-ride="carousel">
-				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-				</ol>
+	<!-- 메인페이지  -->
+	<div id="main">
 
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner">
-					<div class="item active">
-						<img src="/img/부부 index.png" alt="Los Angeles"
-							style="width: 100%;">
+		<div class="w3-container">
+			<div class="headline">
+				<br>
+				<h2>상품등록</h2>
+				<br>
+			</div>
+			<div class="loginDiv">
+				<form method="POST" action="/tshop/regProduct.do" method="post"
+					enctype="multipart/form-data">
+					<!-- 메뉴이름 -->
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label for="product_name">상품 이름</label> <input type="text"
+								class="form-control" id="product_name" name="product_name"
+								placeholder="상품 이름" required>
+						</div>
+					</div>
+					<!-- 메뉴 가격 -->
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="product_cost">상품 가격</label> <input type="text"
+								id="product_price" name="product_price" placeholder="가격"
+								class="form-control" required>
+						</div>
+					</div>
+					<br>
+					<!-- 메뉴 이미지 -->
+					<div class="row">
+						<div class="form-group">
+							<div class="col-sm-8">
+								<label for="product_img">상품 이미지</label> <input type="file"
+									class="form-control input-lg" id="product_img"
+									name="product_img">
+							</div>
+							<div class="col-sm-4">
+								<div class="select_img" id="select_img">
+									<img src="" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<!-- 메뉴 설명 -->
+					<div class="row">
+						<div class="form-group">
+							<div class="col-sm-6">
+								<label for="menu_exp">상품 설명</label>
+								<textarea rows="5" cols="100" style="resize: none;"
+									id="product_exp" name="product_exp"></textarea>
+							</div>
+						</div>
 					</div>
 
-					<div class="item">
-						<img src="/img/슬기로운생활 index.png" alt="Chicago"
-							style="width: 100%;">
-					</div>
 
-					<div class="item">
-						<img src="/img/밥블레스유.png" alt="New york" style="width: 100%;">
-					</div>
-				</div>
+					<br> <br>
+					<div class="reg_button">
 
-				<!-- Left and right controls -->
-				<a class="left carousel-control" href="#myCarousel"
-					data-slide="prev"> <span
-					class="glyphicon glyphicon-chevron-left"></span> <span
-					class="sr-only">Previous</span>
-				</a> <a class="right carousel-control" href="#myCarousel"
-					data-slide="next"> <span
-					class="glyphicon glyphicon-chevron-right"></span> <span
-					class="sr-only">Next</span>
-				</a>
+						<button class="btn btn-primary px-3" id="reg_submit"
+							onclick="submit();">상품등록</button>
+						&emsp;&emsp; <a class="btn btn-danger px-3"
+							href="javascript:history.back();"> <i
+							class="fa fa-rotate-right pr-2" aria-hidden="true"></i>취소하기
+						</a>
+
+					</div>
+					<!-- 작성자 -->
+					<input type="hidden" name="user_id" id="user_id"
+						value="${user.user_id }" />
+				</form>
+				<br> <br>
 			</div>
 		</div>
-	</section>
-
-	<!-- letest product section -->
-	<section class="top-letest-product-section">
-		<div class="container">
-			<div class="section-title">
-				<h2>BEST PRODUCTS</h2>
-			</div>
-			<div class="product-slider owl-carousel">
-				<div class="product-item">
-					<div class="pi-pic">
-						<img src="/img/product/1.jpg" alt="">
-						<div class="pi-links">
-							<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD
-									TO CART</span></a> <a href="#" class="wishlist-btn"><i
-								class="flaticon-heart"></i></a>
-						</div>
-					</div>
-					<div class="pi-text">
-						<h6>$35,00</h6>
-						<p>Flamboyant Pink Top</p>
-					</div>
-				</div>
-				<div class="product-item">
-					<div class="pi-pic">
-						<div class="tag-new">New</div>
-						<img src="/img/product/2.jpg" alt="">
-						<div class="pi-links">
-							<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD
-									TO CART</span></a> <a href="#" class="wishlist-btn"><i
-								class="flaticon-heart"></i></a>
-						</div>
-					</div>
-					<div class="pi-text">
-						<h6>$35,00</h6>
-						<p>Black and White Stripes Dress</p>
-					</div>
-				</div>
-				<div class="product-item">
-					<div class="pi-pic">
-						<img src="/img/product/3.jpg" alt="">
-						<div class="pi-links">
-							<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD
-									TO CART</span></a> <a href="#" class="wishlist-btn"><i
-								class="flaticon-heart"></i></a>
-						</div>
-					</div>
-					<div class="pi-text">
-						<h6>$35,00</h6>
-						<p>Flamboyant Pink Top</p>
-					</div>
-				</div>
-				<div class="product-item">
-					<div class="pi-pic">
-						<img src="/img/product/4.jpg" alt="">
-						<div class="pi-links">
-							<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD
-									TO CART</span></a> <a href="#" class="wishlist-btn"><i
-								class="flaticon-heart"></i></a>
-						</div>
-					</div>
-					<div class="pi-text">
-						<h6>$35,00</h6>
-						<p>Flamboyant Pink Top</p>
-					</div>
-				</div>
-				<div class="product-item">
-					<div class="pi-pic">
-						<img src="/img/product/6.jpg" alt="">
-						<div class="pi-links">
-							<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD
-									TO CART</span></a> <a href="#" class="wishlist-btn"><i
-								class="flaticon-heart"></i></a>
-						</div>
-					</div>
-					<div class="pi-text">
-						<h6>$35,00</h6>
-						<p>Flamboyant Pink Top</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- letest product section end -->
+	</div>
 
 	<!-- Footer section -->
 	<!-- <section class="footer-section"> -->
@@ -326,4 +293,41 @@ if(msg != null || msg != ""){
 	<script src="/js/main.js"></script>
 
 </body>
+<style>
+#main {
+	margin-bottom: 50px;
+	margin-top: 50px;
+	width: 50%;
+	margin: auto;
+}
+</style>
+<!-- footer -->
+<style>
+.bg-4 {
+	background-color: #2f2f2f;
+	color: #ffffff;
+	height: 150px;
+	padding-bottom: 45px;
+	padding-top: 45px;
+}
+</style>
+<script>
+	$(document).ready(
+			function() {
+				$("#product_img").change(
+						function() {
+							if (this.files && this.files[0]) {
+								var reader = new FileReader;
+								reader.onload = function(data) {
+									$(".select_img img").attr("src",
+											data.target.result).width(200);
+									$(".select_img img").attr("src",
+											data.target.result).height(200);
+
+								}
+								reader.readAsDataURL(this.files[0]);
+							}
+						});
+			});
+</script>
 </html>

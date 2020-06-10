@@ -1,5 +1,11 @@
 package poly.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -7,26 +13,43 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import poly.dto.ProductDTO;
 import poly.dto.UserDTO;
 import poly.service.IMailService;
 import poly.service.ITShopService;
 import poly.util.CmmUtil;
+import poly.util.Paging;
 
 @Controller
 public class TShopController {
 
 	private Logger log = Logger.getLogger(this.getClass());
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 
 	@Resource(name = "TShopService")
 	private ITShopService tshopService;
 
 	@Resource(name = "MailService")
 	private IMailService mailService;
+
+	private String uploadFile(String originalName, byte[] fileData) throws Exception {
+
+		UUID uid = UUID.randomUUID();
+		String savedName = uid.toString() + "_" + originalName;
+		File target = new File(uploadPath, savedName);
+		FileCopyUtils.copy(fileData, target);
+		return savedName;
+	}
 
 	/*
 	 * tshop 메인 페이지
@@ -237,46 +260,149 @@ public class TShopController {
 
 	// 아이디 찾기 실행
 	@RequestMapping(value = "/tshop/findIdPost")
-	public String tshopFindIdPost(@RequestParam("user_email")String user_email, ModelMap model, HttpServletRequest request) throws Exception {
-		
+	public String tshopFindIdPost(@RequestParam("user_email") String user_email, ModelMap model,
+			HttpServletRequest request) throws Exception {
+
 		String user_id = "";
-		
+
 		user_id = tshopService.getTSHOPUserId(user_email);
-		
+
 		model.addAttribute("user_id", user_id);
-		
+
 		return "tshop/loginTest";
 	}
 
 	// 비밀번호 찾기 폼
-	@RequestMapping(value="/tshop/findPassword")
+	@RequestMapping(value = "/tshop/findPassword")
 	public String tshopFindPassword() {
 
 		return "tshop/findPassword";
 	}
 
 	// 비밀번호 찾기 실행
-	@RequestMapping(value="/tshop/findPasswordPost")
+	@RequestMapping(value = "/tshop/findPasswordPost")
 	public String tshopFindPasswordPost(HttpServletRequest request, ModelMap model) {
-		
+
 		String user_email = "";
 		String user_id = "";
 		String user_password = "";
-		
+
 		user_id = request.getParameter("user_id");
 		user_email = request.getParameter("user_email");
-		
-		
+
 		try {
 			user_password = tshopService.getTSHOPUserPassword(user_id, user_email);
 		} catch (Exception e) {
 			e.toString();
 		}
-				
+
 		model.addAttribute("user_password", user_password);
 
 		return "tshop/loginTest";
 	}
-	
-	
+
+	// 상품 등록 폼
+	@RequestMapping(value = "/tshop/regProductForm")
+	public String tshopRegProductForm() {
+
+		log.info(this.getClass().getName() + ".tshopRegProductForm Page!!");
+
+		return "tshop/regProduct";
+	}
+
+	/*
+	 * 상품 등록
+	 */
+	@RequestMapping(value = "/tshop/regProduct")
+	public String regProduct(MultipartHttpServletRequest request, HttpSession session, ModelMap model) throws IOException, Exception {
+
+		log.info(this.getClass().getName() + ".regProduct start!");
+
+		UserDTO user = new UserDTO();
+		user = (UserDTO) session.getAttribute("user");
+		String user_id = user.getUser_id();
+
+		ProductDTO pDTO = new ProductDTO();
+		pDTO.setProduct_name(request.getParameter("product_name"));
+		pDTO.setProduct_exp(request.getParameter("product_exp"));
+		pDTO.setProduct_price(request.getParameter("product_price"));
+		pDTO.setUser_id(user_id);
+
+		MultipartFile mf = request.getFile("product_img");
+
+		String savedName = uploadFile(mf.getOriginalFilename(), mf.getBytes());
+
+		pDTO.setProduct_img(savedName);
+		
+		int result = 0;
+		
+		String msg = "";
+		
+		try {
+			result = tshopService.insertRegProduct(pDTO);
+		} catch (Exception e) {
+			e.toString();
+		}
+		
+		if(result >= 1) {
+			msg = "매장 등록 성공!!";
+		}else {
+			msg = "매장 등록 실패!!";
+		}
+		
+		model.addAttribute("msg", msg);
+		
+		// 메모리 초기화
+		pDTO = null;
+		
+
+		return "tshop/tshopMain";
+	}
+
+	/*
+	 * 판매자의 상품 리스트 출력
+	 */
+	@RequestMapping(value = "/tshop/myProductInfo")
+	public String getMyProductList(HttpSession session,
+			@RequestParam(value = "nowPage", defaultValue = "1") String nowPage, ModelMap model) {
+
+		log.info(this.getClass().getName() + ".getMyProductList start!!");
+
+		UserDTO user = new UserDTO();
+
+		user = (UserDTO) session.getAttribute("user");
+
+		List<ProductDTO> productList = new ArrayList<ProductDTO>();
+
+		try {
+			productList = tshopService.getMyProductList(user.getUser_id());
+		} catch (Exception e) {
+			e.printStackTrace();
+			e.toString();
+		}
+
+		// 페이징
+		int page = 0;
+		Paging paging = new Paging();
+		if (nowPage != null) {
+			page = new Integer(nowPage) - 1;
+		}
+
+		paging.setPageNo(page + 1);
+		paging.setPageSize(6); // 한 페이지당 몇개 보여줄건지
+		paging.setTotalCount(productList.size());
+		int startIndex = 0 + (paging.getPageSize() * page);
+		int endIndex = paging.getPageSize() + (paging.getPageSize() * page);
+		if (endIndex > productList.size()) {
+			endIndex = productList.size();
+		}
+		productList = productList.subList(startIndex, endIndex);
+
+		model.addAttribute("productList", productList);
+		model.addAttribute("paging", paging);
+
+		log.info(this.getClass().getName() + ".getMyProductList end!!");
+
+		return "tshop/myProductList";
+	}
 }

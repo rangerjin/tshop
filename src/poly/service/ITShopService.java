@@ -1,5 +1,8 @@
 package poly.service;
 
+import java.util.List;
+
+import poly.dto.ProductDTO;
 import poly.dto.UserDTO;
 
 public interface ITShopService {
@@ -21,4 +24,10 @@ public interface ITShopService {
 
 	// 비밀번호 찾기
 	public String getTSHOPUserPassword(String user_id, String user_email) throws Exception;
+
+	// 판매자 나의 상품 리스트
+	public List<ProductDTO> getMyProductList(String user_id) throws Exception;
+	
+	// 상품 등록 성공시 1 실패시 0
+	public int insertRegProduct(ProductDTO pDTO) throws Exception;
 }

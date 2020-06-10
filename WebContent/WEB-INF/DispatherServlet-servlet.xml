@@ -61,9 +61,16 @@
 	<!-- 매장 파일 업로드 경로 -->
 	<bean id="uploadPath" class="java.lang.String">
 		<constructor-arg
+			value="C:\workspace\tshop\WebContent\resources\img">
+		</constructor-arg>
+	</bean>
+	<!-- 
+	<bean id="uploadPath" class="java.lang.String">
+		<constructor-arg
 			value="C:\java_workspace\food23\WebContent\resources\img">
 		</constructor-arg>
 	</bean>
+	 -->
 	<!-- 메뉴 파일 업로드 경로 -->
 	<bean id="imgUploadPath" class="java.lang.String">
 		<constructor-arg

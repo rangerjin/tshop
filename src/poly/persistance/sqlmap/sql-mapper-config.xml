@@ -11,5 +11,7 @@
 		<typeAlias type="poly.dto.StrReviewDTO" alias="StrReviewDTO"/>
 		<!-- 유저 테이블 -->
 		<typeAlias type="poly.dto.UserDTO" alias="UserDTO"/>
+		<!-- 상품 테이블 -->
+		<typeAlias type="poly.dto.ProductDTO" alias="ProductDTO"/>
     </typeAliases>
 </configuration>

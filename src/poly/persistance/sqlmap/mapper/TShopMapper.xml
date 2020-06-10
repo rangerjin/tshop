@@ -58,6 +58,15 @@
 		SELECT USER_PWD FROM USER WHERE USER_ID = #{user_id} AND USER_EMAIL = #{user_email}
 	</select>
 	
+	<select id="getMyProductList" parameterType="String" resultType="ProductDTO">
+		SELECT * FROM PRODUCT WHERE PRODUCT_USER_ID = #{user_id}
+	</select>
+	
+	<insert id="insertRegProduct" parameterType="ProductDTO">
+		INSERT INTO PRODUCT(PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_EXP, PRODUCT_USER_ID, PRODUCT_IMG)
+		 VALUES(#{product_name}, #{product_price}, #{product_exp}, #{user_id}, #{product_img})
+	</insert>
+	
 	<!-- 
 	<update id="updateAuthKey" parameterType="hashmap">
 		<![CDATA[
