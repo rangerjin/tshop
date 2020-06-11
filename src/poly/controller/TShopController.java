@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import poly.dto.CategoryDTO;
 import poly.dto.ProductDTO;
 import poly.dto.UserDTO;
 import poly.service.IMailService;
@@ -32,7 +33,7 @@ import poly.util.Paging;
 public class TShopController {
 
 	private Logger log = Logger.getLogger(this.getClass());
-	
+
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 
@@ -132,7 +133,7 @@ public class TShopController {
 
 		log.info(this.getClass().getName() + " 이메일 코드 발송 후!!");
 
-		return "tshop/loginPage";
+		return "tshop/loginTest";
 	}
 
 	/**
@@ -204,19 +205,19 @@ public class TShopController {
 		/*
 		 * if(user == null) { model.addAttribute("msg", "아이디 비밀번호가 맞지 않습니다.");
 		 * 
-		 * return "tshop/loginPage"; }
+		 * return "tshop/loginTest"; }
 		 */
 
 		if (!user.getUser_id().equals(user_id)) {
 			model.addAttribute("msg", "아이디 존재 하지 않습니다.");
 
-			return "tshop/loginPage";
+			return "tshop/loginTest";
 		}
 
 		if (user.getUser_id().equals(user_id) && !user.getUser_pwd().equals(user_pwd)) {
 			model.addAttribute("msg", "비밀번호가 일치 하지 않습니다.");
 
-			return "tshop/loginPage";
+			return "tshop/loginTest";
 		}
 
 		// 입력한 아이디와 비밀번호 값이 일치하고 user_code와 user_key 값에 따라 노말 로그인 ceo 로그인 나눈다
@@ -242,11 +243,11 @@ public class TShopController {
 
 			model.addAttribute("msg", "이메일 인증을 해주셔야 로그인할수 있습니다.");
 
-			return "tshop/loginPage";
+			return "tshop/loginTest";
 		} else {
 			model.addAttribute("msg", "로그인 실패");
 
-			return "tshop/loginPage";
+			return "tshop/loginTest";
 		}
 
 	}
@@ -303,9 +304,21 @@ public class TShopController {
 
 	// 상품 등록 폼
 	@RequestMapping(value = "/tshop/regProductForm")
-	public String tshopRegProductForm() {
+	public String tshopRegProductForm(HttpServletRequest request) throws Exception {
 
 		log.info(this.getClass().getName() + ".tshopRegProductForm Page!!");
+//		
+//		List<CategoryDTO> categoryList = new ArrayList<CategoryDTO>();
+//		
+//		// 카테고리 리스트 전체 가져오기
+//		categoryList = tshopService.getTSHOPCategoryList();
+//		
+//		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ categoryList 확인 : ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+//		System.out.println(categoryList.toString());
+//		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ categoryList 확인 : ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+//
+//		
+//		request.setAttribute("categoryList", categoryList);
 
 		return "tshop/regProduct";
 	}
@@ -314,7 +327,8 @@ public class TShopController {
 	 * 상품 등록
 	 */
 	@RequestMapping(value = "/tshop/regProduct")
-	public String regProduct(MultipartHttpServletRequest request, HttpSession session, ModelMap model) throws IOException, Exception {
+	public String regProduct(MultipartHttpServletRequest request, HttpSession session, ModelMap model)
+			throws IOException, Exception {
 
 		log.info(this.getClass().getName() + ".regProduct start!");
 
@@ -333,28 +347,27 @@ public class TShopController {
 		String savedName = uploadFile(mf.getOriginalFilename(), mf.getBytes());
 
 		pDTO.setProduct_img(savedName);
-		
+
 		int result = 0;
-		
+
 		String msg = "";
-		
+
 		try {
 			result = tshopService.insertRegProduct(pDTO);
 		} catch (Exception e) {
 			e.toString();
 		}
-		
-		if(result >= 1) {
+
+		if (result >= 1) {
 			msg = "매장 등록 성공!!";
-		}else {
+		} else {
 			msg = "매장 등록 실패!!";
 		}
-		
+
 		model.addAttribute("msg", msg);
-		
+
 		// 메모리 초기화
 		pDTO = null;
-		
 
 		return "tshop/tshopMain";
 	}
@@ -362,7 +375,7 @@ public class TShopController {
 	/*
 	 * 판매자의 상품 리스트 출력
 	 */
-	@RequestMapping(value = "/tshop/myProductInfo")
+	@RequestMapping(value = "/tshop/myProductList")
 	public String getMyProductList(HttpSession session,
 			@RequestParam(value = "nowPage", defaultValue = "1") String nowPage, ModelMap model) {
 
@@ -374,12 +387,18 @@ public class TShopController {
 
 		List<ProductDTO> productList = new ArrayList<ProductDTO>();
 
+		log.info(this.getClass().getName() + "user.getUser_id() 확인 : " + user.getUser_id());
+
 		try {
+
 			productList = tshopService.getMyProductList(user.getUser_id());
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.toString();
 		}
+
+		log.info(this.getClass().getName() + "productList 확인 : " + productList.toString());
+
+		log.info(this.getClass().getName() + "productList 페이징 시작");
 
 		// 페이징
 		int page = 0;
@@ -396,7 +415,10 @@ public class TShopController {
 		if (endIndex > productList.size()) {
 			endIndex = productList.size();
 		}
+
 		productList = productList.subList(startIndex, endIndex);
+
+		log.info(this.getClass().getName() + "productList 페이징 끝");
 
 		model.addAttribute("productList", productList);
 		model.addAttribute("paging", paging);
@@ -404,5 +426,22 @@ public class TShopController {
 		log.info(this.getClass().getName() + ".getMyProductList end!!");
 
 		return "tshop/myProductList";
+	}
+
+	@RequestMapping(value = "/tshop/imageTest")
+	public String imageTest(ModelMap model) {
+
+		List<ProductDTO> productList = new ArrayList<ProductDTO>();
+
+		try {
+
+			productList = tshopService.getMyProductList("youngjinman3");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("productList", productList);
+
+		return "tshop/imageTest";
 	}
 }

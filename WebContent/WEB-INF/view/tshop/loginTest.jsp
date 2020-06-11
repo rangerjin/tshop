@@ -196,17 +196,15 @@ h2 {
 				<h2>로그인</h2>
 
 				<form method="post" id="authForm" action="/tshop/loginPost.do">
-					<input type="hidden" name="redirectUrl"
-						value="https://blogpack.tistory.com/manage">
 					<fieldset>
 						<legend class="screen_out">로그인 정보 입력폼</legend>
 						<div class="box_login">
 							<div class="inp_text">
-								<label for="loginId" class="screen_out">아이디</label> <input
+								<label for="user_id" class="screen_out">아이디</label> <input
 									type="text" id="user_id" name="user_id" placeholder="아이디">
 							</div>
 							<div class="inp_text">
-								<label for="loginPw" class="screen_out">비밀번호</label> <input
+								<label for="user_pwd" class="screen_out">비밀번호</label> <input
 									type="password" id="user_pwd" name="user_pwd"
 									placeholder="비밀번호">
 							</div>

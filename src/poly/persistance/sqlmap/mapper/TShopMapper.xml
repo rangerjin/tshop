@@ -67,6 +67,10 @@
 		 VALUES(#{product_name}, #{product_price}, #{product_exp}, #{user_id}, #{product_img})
 	</insert>
 	
+	<select id="getTSHOPCategoryList" resultType="CategoryDTO">
+		SELECT * FROM CATEGORY ORDER BY CATEGORY_NAME, CATEGORY_PROGRAM 
+	</select>
+	
 	<!-- 
 	<update id="updateAuthKey" parameterType="hashmap">
 		<![CDATA[

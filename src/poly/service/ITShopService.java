@@ -2,6 +2,7 @@ package poly.service;
 
 import java.util.List;
 
+import poly.dto.CategoryDTO;
 import poly.dto.ProductDTO;
 import poly.dto.UserDTO;
 
@@ -16,9 +17,9 @@ public interface ITShopService {
 	// 회원가입시 이메일 중복 체크
 	public int getTSHOPUserEmailCheck(String user_email) throws Exception;
 
-	// 로그인창에서 아이디 비밀번호로 DTO 불러오기 
+	// 로그인창에서 아이디 비밀번호로 DTO 불러오기
 	public UserDTO getTSHOPUserInfo(String user_id, String user_pwd) throws Exception;
-	
+
 	// 아이디 찾기
 	public String getTSHOPUserId(String user_email) throws Exception;
 
@@ -27,7 +28,11 @@ public interface ITShopService {
 
 	// 판매자 나의 상품 리스트
 	public List<ProductDTO> getMyProductList(String user_id) throws Exception;
-	
+
 	// 상품 등록 성공시 1 실패시 0
 	public int insertRegProduct(ProductDTO pDTO) throws Exception;
+
+	// 카테고리 리스트 전체 가져오기
+	public List<CategoryDTO> getTSHOPCategoryList() throws Exception;
+	
 }

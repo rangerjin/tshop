@@ -80,12 +80,13 @@ var msg = request.getParameter('msg');
 if(msg != null || msg != ""){
 	alert('<c:out value="${msg}"/>');	
 }
-
-/* alert('<c:out value="${msg}"/>'); */
-
 </script>
 </head>
 <body>
+
+	<jsp:include page="/WEB-INF/view/tshop/mainHeader.jsp"></jsp:include>
+	
+	<%-- 
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -166,6 +167,7 @@ if(msg != null || msg != ""){
 			</div>
 		</nav>
 	</header>
+	 --%>
 	<!-- Header section end -->
 
 
@@ -295,10 +297,12 @@ if(msg != null || msg != ""){
 
 	<!-- Footer section -->
 	<!-- <section class="footer-section"> -->
+	<jsp:include page="/WEB-INF/view/tshop/footer.jsp"></jsp:include>
+	<!-- 
 	<div class="social-links-warp">
 		<div class="container">
 
-			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+			Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
 			<p class="text-white text-center mt-5">
 				Copyright &copy;
 				<script>
@@ -306,10 +310,11 @@ if(msg != null || msg != ""){
 				</script>
 				BY KOREA POLYTECHNICS. ALL RIGHTS RESERVED. MADE BY HYJ
 			</p>
-			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+			Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
 
 		</div>
 	</div>
+	 -->
 	<!-- </section> -->
 	<!-- Footer section end -->
 

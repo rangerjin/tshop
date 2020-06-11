@@ -92,9 +92,15 @@
 }
 
 #main {
-	padding-top:50px;
-	padding-bottom:50px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 }
+
+/* .form-group {
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+}
+ */
 </style>
 </head>
 <body>
@@ -194,6 +200,31 @@
 			<div class="loginDiv">
 				<form method="POST" action="/tshop/regProduct.do" method="post"
 					enctype="multipart/form-data">
+
+					<!-- 상품 카테고리 -->
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label for="sel1">상품 카테고리</label> <select class="form-control"
+								id="product_category" name="product_category"
+								onchange="categoryChange(this)">
+								<option>카테고리 선택</option>
+								<option value="a">드라마</option>
+								<option value="b">영화</option>
+								<option value="c">예능</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- 프로그램이름 -->
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label for="sel1">프로그램</label> <select class="form-control"
+								id="product_program" name="product_program">
+								<option>프로그램을 선택해주세요</option>
+							</select>
+						</div>
+					</div>
+
 					<!-- 메뉴이름 -->
 					<div class="form-group">
 						<div class="col-sm-6">
@@ -330,4 +361,31 @@
 						});
 			});
 </script>
+<!-- select box script -->
+<script>
+	function categoryChange(e) {
+		var good_a = [ "슬기로운 의사생활", "부부의 세계", "3" ];
+		var good_b = [ "2-1", "2-2", "2-3", "2-4" ];
+		var good_c = [ "3-1", "3-2", "3-3", "3-4" ];
+		var target = document.getElementById("product_program");
+
+		if (e.value == "a")
+			var d = good_a;
+		else if (e.value == "b")
+			var d = good_b;
+		else if (e.value == "c")
+			var d = good_c;
+
+		target.options.length = 0;
+
+		for (x in d) {
+			var opt = document.createElement("option");
+			opt.value = d[x];
+			opt.innerHTML = d[x];
+			target.appendChild(opt);
+		}
+	}
+</script>
+
+<!-- test script End -->
 </html>

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import poly.dto.CategoryDTO;
 import poly.dto.ProductDTO;
 import poly.dto.UserDTO;
 import poly.persistance.mapper.ITShopMapper;
@@ -133,7 +134,7 @@ public class TShopService implements ITShopService {
 	@Override
 	public List<ProductDTO> getMyProductList(String user_id) throws Exception {
 		log.info(this.getClass().getName() + ".getMyProductList service start!");
-		
+
 		return tShopMapper.getMyProductList(user_id);
 	}
 
@@ -141,15 +142,22 @@ public class TShopService implements ITShopService {
 	@Override
 	public int insertRegProduct(ProductDTO pDTO) throws Exception {
 		log.info(this.getClass().getName() + ".insertRegProduct start!");
-		
+
 		int result = 0;
 		try {
 			result = tShopMapper.insertRegProduct(pDTO);
 		} catch (Exception e) {
 			e.toString();
 		}
-		
+
 		return result;
+	}
+
+	// 카테고리 리스트 전체 가져오기
+	@Override
+	public List<CategoryDTO> getTSHOPCategoryList() throws Exception {
+		log.info(this.getClass().getName() + ".getTSHOPCategoryList start!");
+		return tShopMapper.getTSHOPCategoryList();
 	}
 
 }

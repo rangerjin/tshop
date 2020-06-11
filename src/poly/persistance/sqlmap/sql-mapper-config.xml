@@ -13,5 +13,7 @@
 		<typeAlias type="poly.dto.UserDTO" alias="UserDTO"/>
 		<!-- 상품 테이블 -->
 		<typeAlias type="poly.dto.ProductDTO" alias="ProductDTO"/>
+		<!-- 카테고리 테이블 -->
+		<typeAlias type="poly.dto.CategoryDTO" alias="CategoryDTO"/>
     </typeAliases>
 </configuration>
