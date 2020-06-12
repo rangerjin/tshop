@@ -419,6 +419,8 @@ public class TShopController {
 		productList = productList.subList(startIndex, endIndex);
 
 		log.info(this.getClass().getName() + "productList 페이징 끝");
+		
+		log.info(this.getClass().getName() + "productList 확인 : " + productList.toString());
 
 		model.addAttribute("productList", productList);
 		model.addAttribute("paging", paging);
@@ -428,20 +430,4 @@ public class TShopController {
 		return "tshop/myProductList";
 	}
 
-	@RequestMapping(value = "/tshop/imageTest")
-	public String imageTest(ModelMap model) {
-
-		List<ProductDTO> productList = new ArrayList<ProductDTO>();
-
-		try {
-
-			productList = tshopService.getMyProductList("youngjinman3");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		model.addAttribute("productList", productList);
-
-		return "tshop/imageTest";
-	}
 }

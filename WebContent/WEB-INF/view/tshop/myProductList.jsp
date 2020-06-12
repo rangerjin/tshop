@@ -65,12 +65,12 @@
 </script>
 
 <style>
-
 .page-wrapper {
 	margin: auto;
 	width: 50%;
 	margin-top: 100px;
 	margin-bottom: 150px;
+	width: 75%;
 }
 
 .box_img_wrap {
@@ -90,10 +90,11 @@
 .headline {
 	text-align: center;
 	padding-top: 2rem;
-	
 }
 
-
+.container-fluid {
+	style: width: 80%;
+}
 </style>
 
 </head>
@@ -108,8 +109,8 @@
 
 	<hr />
 	<br />
-	<div class="page-wrapper col-sm-8" style="width: 75%;">
-		<div class="container-fluid" style="width: 80%;">
+	<div class="page-wrapper col-sm-8">
+		<div class="container-fluid">
 
 			<%
 				if (productList.size() < 0) {
