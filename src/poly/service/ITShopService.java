@@ -34,5 +34,8 @@ public interface ITShopService {
 
 	// 카테고리 리스트 전체 가져오기
 	public List<CategoryDTO> getTSHOPCategoryList() throws Exception;
+
+	// product_no 로 상품 정보 가져오기
+	public ProductDTO getProductInfo(String product_no) throws Exception;
 	
 }

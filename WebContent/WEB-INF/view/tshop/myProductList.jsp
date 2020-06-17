@@ -77,7 +77,7 @@
 	width: 300px;
 	height: 300px;
 	border: 1px solid #d2d2d2;
-	margin-left: 20%
+	margin-left: 10%
 }
 
 .box_img_wrap {
@@ -86,14 +86,22 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-
+ 
 .headline {
 	text-align: center;
 	padding-top: 2rem;
 }
 
+ 
 .container-fluid {
 	style: width: 80%;
+}
+ 
+.pagination {
+    display: -ms-flexbox;
+    display: inline-flex;
+    list-style: none;
+    border-radius: .25rem;
 }
 </style>
 
@@ -109,7 +117,7 @@
 
 	<hr />
 	<br />
-	<div class="page-wrapper col-sm-8">
+	<div class="page-wrapper">
 		<div class="container-fluid">
 
 			<%
@@ -129,7 +137,7 @@
 						 */
 			%>
 
-			<div class="col-sm-6" style="content-align: center">
+			<div class="col-sm-3" style="content-align: center">
 
 				<div class="box_img_wrap"
 					style="background-image: url('/resources/img/<%=pDTO.getProduct_img()%>')">

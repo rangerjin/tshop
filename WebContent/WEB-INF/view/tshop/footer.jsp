@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <link
 	href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i"
-	rel="stylesheet">	
+	rel="stylesheet">
 
 <div class="social-links-warp">
 	<div class="container">
@@ -19,3 +19,10 @@
 
 	</div>
 </div>
+
+<style>
+.social-links-warp {
+	background: #282828;
+	padding-top: 30px;
+}
+</style>

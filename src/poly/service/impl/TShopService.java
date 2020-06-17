@@ -160,4 +160,15 @@ public class TShopService implements ITShopService {
 		return tShopMapper.getTSHOPCategoryList();
 	}
 
+	
+	// 상품 상세보기 product_no
+	@Override
+	public ProductDTO getProductInfo(String product_no) throws Exception {
+		ProductDTO pDTO = null;
+		
+		pDTO = tShopMapper.getProductInfo(product_no);
+		
+		return pDTO;
+	}
+
 }

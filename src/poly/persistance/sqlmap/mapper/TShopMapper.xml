@@ -64,11 +64,15 @@
 	
 	<insert id="insertRegProduct" parameterType="ProductDTO">
 		INSERT INTO PRODUCT(PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_EXP, PRODUCT_USER_ID, PRODUCT_IMG)
-		 VALUES(#{product_name}, #{product_price}, #{product_exp}, #{user_id}, #{product_img})
+		 VALUES(#{product_name}, #{product_price}, #{product_exp}, #{product_user_id}, #{product_img})
 	</insert>
 	
 	<select id="getTSHOPCategoryList" resultType="CategoryDTO">
 		SELECT * FROM CATEGORY ORDER BY CATEGORY_NAME, CATEGORY_PROGRAM 
+	</select>
+	
+	<select id="getProductInfo" parameterType="String" resultType="ProductDTO">
+		SELECT * FROM PRODUCT WHERE PRODUCT_NO = #{product_no}
 	</select>
 	
 	<!-- 

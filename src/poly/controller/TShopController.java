@@ -340,7 +340,7 @@ public class TShopController {
 		pDTO.setProduct_name(request.getParameter("product_name"));
 		pDTO.setProduct_exp(request.getParameter("product_exp"));
 		pDTO.setProduct_price(request.getParameter("product_price"));
-		pDTO.setUser_id(user_id);
+		pDTO.setProduct_user_id(user_id);
 
 		MultipartFile mf = request.getFile("product_img");
 
@@ -428,6 +428,33 @@ public class TShopController {
 		log.info(this.getClass().getName() + ".getMyProductList end!!");
 
 		return "tshop/myProductList";
+	}
+	
+	// 상품 상세보기
+	@RequestMapping(value="tshop/productInfo")
+	public String getProductInfo(@RequestParam(value="product_no")String product_no, ModelMap model) {
+		log.info(this.getClass().getName() + ".getProductInfo start!!");
+		
+		ProductDTO pDTO = null;
+		
+		try {
+			pDTO = tshopService.getProductInfo(product_no);
+		} catch (Exception e) {
+			e.toString();
+		}
+		
+		log.info(this.getClass().getName() + "productDTO 확인 : " + pDTO.toString());
+		
+		model.addAttribute("productDTO", pDTO);
+		
+		pDTO = null;
+		
+		return "tshop/productInfo";
+	}
+	
+	@RequestMapping(value="tshop/testJSP")
+	public String testJSP() {
+		return "tshop/productInfo";
 	}
 
 }

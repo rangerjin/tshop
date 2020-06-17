@@ -38,4 +38,7 @@ public interface ITShopMapper {
 	// 카테고리 리스트 전체 가져오기
 	List<CategoryDTO> getTSHOPCategoryList() throws Exception;
 
+	// 상품 상세보기
+	ProductDTO getProductInfo(String product_no) throws Exception;
+
 }
