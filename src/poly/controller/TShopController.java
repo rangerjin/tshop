@@ -449,7 +449,8 @@ public class TShopController {
 		
 		pDTO = null;
 		
-		return "tshop/productInfo";
+		// return "tshop/productInfo";
+		return "tshop/productInfo2";
 	}
 	
 	@RequestMapping(value="tshop/testJSP")
