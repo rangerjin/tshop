@@ -37,5 +37,11 @@ public interface ITShopService {
 
 	// product_no 로 상품 정보 가져오기
 	public ProductDTO getProductInfo(String product_no) throws Exception;
+
+	// myProduct 상품 삭제
+	public int deleteProductInfo(String product_no) throws Exception;
+
+	// myProduct 상품 업데이트
+	public int updateProductInfo(ProductDTO pDTO) throws Exception;
 	
 }

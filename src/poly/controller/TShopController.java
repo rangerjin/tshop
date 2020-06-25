@@ -419,7 +419,7 @@ public class TShopController {
 		productList = productList.subList(startIndex, endIndex);
 
 		log.info(this.getClass().getName() + "productList 페이징 끝");
-		
+
 		log.info(this.getClass().getName() + "productList 확인 : " + productList.toString());
 
 		model.addAttribute("productList", productList);
@@ -429,31 +429,139 @@ public class TShopController {
 
 		return "tshop/myProductList";
 	}
-	
+
 	// 상품 상세보기
-	@RequestMapping(value="tshop/productInfo")
-	public String getProductInfo(@RequestParam(value="product_no")String product_no, ModelMap model) {
+	@RequestMapping(value = "tshop/productInfo")
+	public String getProductInfo(@RequestParam(value = "product_no") String product_no, ModelMap model,
+			HttpSession session) {
 		log.info(this.getClass().getName() + ".getProductInfo start!!");
-		
+
+		UserDTO user = (UserDTO) session.getAttribute("user");
+
+		log.info(this.getClass().getName() + " 세션 유저 이름 확인 : " + user.toString());
+
 		ProductDTO pDTO = null;
-		
+
 		try {
 			pDTO = tshopService.getProductInfo(product_no);
 		} catch (Exception e) {
 			e.toString();
 		}
-		
+
 		log.info(this.getClass().getName() + "productDTO 확인 : " + pDTO.toString());
-		
+
 		model.addAttribute("productDTO", pDTO);
-		
+		model.addAttribute("product_user_id", user.getUser_id());
+
 		pDTO = null;
-		
+
 		// return "tshop/productInfo";
 		return "tshop/productInfo2";
 	}
+
+	// My상품리스트 상품 삭제
+	@RequestMapping(value = "tshop/deleteProduct")
+	public String deleteProductInfo(@RequestParam(value = "product_no") String product_no, ModelMap model) throws Exception {
+
+		log.info(this.getClass().getName() + ".deleteProductInfo start!!");
+
+		int result = 0;
+		String msg = "";
+
+		try {
+			result = tshopService.deleteProductInfo(product_no);
+		} catch (Exception e) {
+			e.toString();
+		}
+
+		if (result >= 1) {
+			msg = "상품 삭제 성공!!";
+		} else {
+			msg = "상품 삭제 실패!!";
+		}
+
+		model.addAttribute("msg", msg);
+
+		return "redirect:/tshop/myProductList.do";
+	}
+
+	// My상품리스트 상품 수정 페이지가기
+	@RequestMapping(value = "tshop/updateProductForm")
+	public String updateProductForm(HttpServletRequest request, @RequestParam(value = "product_no") String product_no,
+			ModelMap model) throws Exception {
+		
+		log.info(this.getClass().getName() + ".updateProductForm start!!");
+		
+		ProductDTO product = new ProductDTO();
+		
+		product = tshopService.getProductInfo(product_no);
+		
+		log.info(this.getClass().getName() + "product 정보 : " + product.toString());
+		
+		model.addAttribute("product", product);
+		
+		product = null;
+
+		return "tshop/updateProductForm";
+	}
 	
-	@RequestMapping(value="tshop/testJSP")
+	// My상품 리스트 상품 수정하기
+	@RequestMapping(value="tshop/updateProductInfo")
+	public String updateProductInfo(MultipartHttpServletRequest request, ModelMap model, HttpSession session) throws Exception {
+		
+		log.info(this.getClass().getName() + ".updateProductInfo start!!");
+		
+		UserDTO user = (UserDTO) session.getAttribute("user");
+		
+		ProductDTO pDTO = new ProductDTO();
+		
+		pDTO.setProduct_name(request.getParameter("product_name"));
+		pDTO.setProduct_exp(request.getParameter("product_exp"));
+		pDTO.setProduct_price(request.getParameter("product_price"));
+		
+		MultipartFile mf = request.getFile("new_file");
+
+		if (mf.getOriginalFilename() != null && !mf.getOriginalFilename().equals("")) {
+
+			String savedName = uploadFile(mf.getOriginalFilename(), mf.getBytes());
+
+			pDTO.setProduct_img(savedName);
+
+			// 기존 파일을 삭제
+			//new File(uploadPath + request.getParameter("str_img")).delete();
+
+		} else {
+			pDTO.setProduct_img(request.getParameter("str_img"));
+		}
+		
+		
+		int result = 0;
+		String msg = "";
+		
+		try {
+			result = tshopService.updateProductInfo(pDTO);
+		} catch (Exception e) {
+			e.toString();
+		}
+		
+		if (result >= 1) {
+			msg = "상품 수정 성공!!";
+		} else {
+			msg = "상품 수정 실패!!";
+		}
+		
+		log.info(this.getClass().getName() + "메시지 확인 : " + msg);
+		
+		String product_no = request.getParameter("product_no");
+		
+		pDTO = null;
+		user = null;
+		
+		
+		return "redirect:/tshop/productInfo.do?product_no="+product_no;
+	}
+
+	@RequestMapping(value = "tshop/testJSP")
 	public String testJSP() {
 		return "tshop/productInfo";
 	}

@@ -171,4 +171,16 @@ public class TShopService implements ITShopService {
 		return pDTO;
 	}
 
+	// myProduct 상품 삭제
+	@Override
+	public int deleteProductInfo(String product_no) throws Exception {
+		return tShopMapper.deleteProductInfo(product_no);
+	}
+
+	// myProduct 상품 업데이트
+	@Override
+	public int updateProductInfo(ProductDTO pDTO) throws Exception {
+		return tShopMapper.updateProductInfo(pDTO);
+	}
+
 }

@@ -41,4 +41,10 @@ public interface ITShopMapper {
 	// 상품 상세보기
 	ProductDTO getProductInfo(String product_no) throws Exception;
 
+	// myProduct 상품 삭제하기
+	int deleteProductInfo(String product_no) throws Exception;
+
+	// myProduct 상품 업데이트
+	int updateProductInfo(ProductDTO pDTO) throws Exception;
+
 }

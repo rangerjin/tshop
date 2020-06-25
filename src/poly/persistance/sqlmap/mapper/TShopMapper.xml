@@ -75,6 +75,23 @@
 		SELECT * FROM PRODUCT WHERE PRODUCT_NO = #{product_no}
 	</select>
 	
+	<!-- MyProduct 상품 삭제 -->
+	<delete id="deleteProductInfo" parameterType="String">
+		DELETE FROM PRODUCT WHERE
+		PRODUCT_NO = #{product_no}
+	</delete>
+	
+	<!-- MyProduct 상품 업데이트 -->
+	<update id="updateProductInfo" parameterType="ProductDTO">
+		UPDATE PRODUCT SET 
+			PRODUCT_NAME = #{product_name},
+			PRODUCT_PRICE = #{product_price},
+			PRODUCT_IMG = #{product_img},
+			PRODUCT_EXP = #{product_exp},
+			PRODUCT_UPDATE = now()
+		WHERE PRODUCT_NO = #{product_no}
+	</update>
+	
 	<!-- 
 	<update id="updateAuthKey" parameterType="hashmap">
 		<![CDATA[

@@ -118,11 +118,13 @@
 	padding: 38px 40px 30px;
 	margin-bottom: 50px;
 }
+
 #productRow1 {
 	margin: 20px;
 	font-size: 2em;
 	text-align: left;
 }
+
 #productRow2 {
 	margin: 20px;
 	font-size: 2em;
@@ -142,8 +144,10 @@
 		<h2>내 상품관리</h2>
 	</div>
 
+	<!-- 
 	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"
 		onclick="location.href='javascript:history.back()'"></span>
+ 	-->
 
 	<hr />
 	<br />
@@ -178,8 +182,19 @@
 						<div class="row" id="productRow2">
 							<div class="col-md-5">상품설명 : ${productDTO.product_exp }</div>
 							<div class="col-md-5">
+							
+								<!-- 
 								<button class="cart" type="button">장바구니</button>
 								<button class="purchase" type="button">바로구매</button>
+								 -->
+								 	
+								<button class="btn btn-secondary" type="button"
+									onclick="location.href='javascript:history.back()'">목록</button>
+									<button class="btn btn-primary" type="button"
+										onclick="location.href='/tshop/updateProductForm.do?product_no=${productDTO.product_no }'">수정</button>
+									<button class="btn btn-danger" type="button"
+										onclick="location.href='/tshop/deleteProduct.do?product_no=${productDTO.product_no }'">삭제</button>
+
 							</div>
 						</div>
 					</div>
@@ -196,5 +211,8 @@
 		<jsp:include page="/WEB-INF/view/tshop/footer.jsp"></jsp:include>
 	</div>
 
+	<script type="text/javascript">
+
+</script>
 </body>
 </html>
